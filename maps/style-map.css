@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+#map-container {
+    height: 45%;
+    padding: 0;
+  }
+#mapid { height: 100% }
+.map-bar{
+  position: absolute;
+  padding: 10px;
+  z-index: 900;
+}
+.map-bar a{
+  color: black;
+  text-decoration: none;
+}

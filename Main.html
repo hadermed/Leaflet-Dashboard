@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet SetUp</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+    <link rel="stylesheet" href="maps/style-map.css">
+    <link rel="stylesheet" href="src/style.css">
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+    
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"/>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+    <script src="./src/leaflet.ajax.min.js"></script>
+
+   
+
+    <link rel="stylesheet" href="./src/leaflet-sidebar.css">
+    <script src="./src/leaflet-sidebar.js"></script>
+
+    <link rel="stylesheet" href="./src/plugins/L.Control.Pan.css">
+    <link rel="stylesheet" href="./src/plugins/L.Control.Zoomslider.css">
+    <link rel="stylesheet" href="./src/plugins/L.Control.MousePosition.css">
+    <link rel="stylesheet" href="./src/plugins/Leaflet.PolylineMeasure.css">
+    <link rel="stylesheet" href="./src/plugins/easy-button.css">
+    <link rel="stylesheet" href="./src/plugins/L.Control.Sidebar.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    
+
+  </head>
+
+  <body onload="buildTable(),switchView('split')">
+      
+    <!-- <div id="side-bar" class="col-md-2" style="height: 50%;">
+
+
+      <ul class="nav navbar-nav">
+        <li><a id="extent-btn" href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-arrows-alt fa-white"></i> Feature Extent</a></li>
+        <li><a id="chart-btn" href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-bar-chart fa-white"></i> Charts</a></li>
+            
+        <div class="dropdown">
+          <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-laptop fa-white"></i> <span id="view">Split View </span><b class="caret"></b></a>
+          <ul class="dropdown-menu" id="split"> 
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" name="view" id="map-graph"><i class="fa fa-th-large"></i> Split View</a></li>
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" name="view" id="map-only"><i class="fa fa-globe"></i> Map View</a></li>
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" name="view" id="graph-only"><i class="fa fa-table"></i> Table View</a></li> 
+          </ul>
+        </div>
+      </ul>
+      
+  </div> -->
+  <div id="map-container">
+    <div id="mapid">
+      <div class="map-bar">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default">
+            <i class="fa fa-filter"></i><a id="extent-btn" href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-arrows-alt fa-white"></i> Feature Extent</a>
+          </button>
+          <button type="button" class="btn btn-default">
+            <i class="fa fa-filter"></i><a id="chart-btn" href="#" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-bar-chart fa-white"></i> Charts</a>
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span id="view">Split View </span></a><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" name="view" id="map-graph"><i class="fa fa-th-large"></i> Split View</a></li>
+              <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" name="view" id="map-only"><i class="fa fa-globe"></i> Map View</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+    <div id="table-container">
+      <div id="toolbar" style="width: 400px;">
+        <div class="btn-group" role="group">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-cloud-download"></i> Export Data <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" id="download-csv-btn"><i class="fa fa-file-text-o"></i> CSV</a></li>
+              <li><a href="#" id="download-excel-btn"><i class="fa fa-file-excel-o"></i> Excel</a></li>
+              <li><a href="#" id="download-pdf-btn"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+            </ul>
+          </div>
+        </div>
+        <span id="feature-count" class="text-muted" style="padding-left: 15px;"></span>
+      </div>
+      <table id="table"></table>
+    </div>
+
+
+    
+
+
+<!--    plugins-->
+
+<script src="./src/plugins/L.Control.Pan.js"></script>
+<script src="./src/plugins/L.Control.Zoomslider.js"></script>
+<script src="./src/plugins/L.Control.MousePosition.js"></script>
+<script src="./src/plugins/Leaflet.PolylineMeasure.js"></script>
+<script src="./src/plugins/easy-button.js"></script>
+<script src="./src/plugins/L.Control.Sidebar.js"></script>
+
+<script src="src/vendor/tableExport/libs/FileSaver/FileSaver.min.js"></script>
+<script src="src/vendor/tableExport/libs/html2canvas/html2canvas.min.js"></script>
+<script src="src/vendor/tableExport/libs/jsPDF/jspdf.min.js"></script>
+<script src="src/vendor/tableExport/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<!--    plugins-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type='text/javascript' src='maps/map.js'></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  <br>
+      <button id="get_user_location_id" class="btn btn-success col-md-12"> Get User Location </button>
+      <br> -->
+      <br>
+      <!-- <h4>Map Center: <span id="map_center_id"></span></h4>
+      <h4>Mouse Location: <span id="mouse_location_id"></span></h4> 
+      <h4>Table Attributaire</h4>
+      <table id="table_id" class="display" style="padding-top: 20px;">
+         <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>aasdsf</td>
+                <td>qweqwra</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>4</td>
+            </tr>
+        </tbody> 
+    </table>
+    <h4 style="padding-top: 30px;">Selected Attribute</h4>
+    <table id="selectTable" style="padding-top: 30px;"></table>
+       <input type="button" value="Generate Table" onclick="GenerateTable()" /> -->
+      <!-- <hr />
+      <div id="dvTable"></div> --> -->
